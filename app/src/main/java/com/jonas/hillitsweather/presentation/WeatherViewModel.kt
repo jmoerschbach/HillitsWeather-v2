@@ -10,20 +10,29 @@ import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.domain.util.Resource
 import kotlinx.coroutines.launch
 
-enum class Mode {REAL, HILLIT}
 
 class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
 
     var state by mutableStateOf(WeatherState())
         private set
 
-//    var mode by mutableStateOf(Mode)
+    private var mode: WeatherMode = WeatherMode.REAL
+
+    fun toggleMode() {
+        mode = if (mode == WeatherMode.HILLIT) WeatherMode.REAL else WeatherMode.HILLIT
+        loadWeather()
+    }
 
     fun loadWeather() {
         viewModelScope.launch {
             state = state.copy(isLoading = true, error = null)
-
-            when (val result = repository.getCurrentWeatherData("52.37895", "9.684040")) {
+            val result = if (mode == WeatherMode.REAL)
+                repository.getWeatherData(
+                    "52.37895",
+                    "9.684040"
+                ) else
+                repository.getFakeWeatherData("52.37895", "9.684040")
+            when (result) {
                 is Resource.Success -> {
                     state = state.copy(
                         completeWeatherData = result.data,

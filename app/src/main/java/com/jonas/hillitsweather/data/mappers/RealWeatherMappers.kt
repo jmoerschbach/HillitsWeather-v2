@@ -32,6 +32,8 @@ private fun toCurrentWeatherData(current: Current): WeatherData {
     )
 }
 
+
+
 private fun toHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
     return hourly.take(24).map {
         val time = DateTimeHelper.toZonedDateTime(it.dt)
@@ -54,8 +56,9 @@ private fun toHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
             rainProbability = rainProbability,
         )
     }
-
 }
+
+
 
 fun WeatherDataDto.toCompleteWeatherData(): CompleteWeatherData {
     val currentWeather = current?.let { toCurrentWeatherData(it) }
@@ -70,3 +73,5 @@ fun WeatherDataDto.toCompleteWeatherData(): CompleteWeatherData {
         hourForecast = hourForecast
     )
 }
+
+

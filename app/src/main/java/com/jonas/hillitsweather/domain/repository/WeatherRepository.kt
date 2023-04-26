@@ -5,5 +5,6 @@ import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
 
 interface WeatherRepository {
 
-    suspend fun getCurrentWeatherData(lat: String, lon: String): Resource<CompleteWeatherData>
+    suspend fun getWeatherData(lat: String, lon: String): Resource<CompleteWeatherData>
+    suspend fun getFakeWeatherData(lat: String, lon: String): Resource<CompleteWeatherData>
 }

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
+import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarCompose() {
+fun TopAppBarCompose( weatherViewModel: WeatherViewModel = getViewModel()) {
     val context = LocalContext.current
 
     val menuVisible = remember { mutableStateOf(false) }
@@ -75,7 +76,8 @@ fun TopAppBarCompose() {
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
         actions = {
-            IconButton(onClick = { makeToast(context, "Changing to Hillit Mode") }) {
+            IconButton(onClick = { weatherViewModel.toggleMode()
+                makeToast(context, "Changing to Hillit Mode") }) {
                 Icon(
                     imageVector = Icons.Default.Phone,
                     contentDescription = stringResource(id = R.string.search)

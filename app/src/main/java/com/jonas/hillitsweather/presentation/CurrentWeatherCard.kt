@@ -48,7 +48,8 @@ fun CurrentWeatherCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Heading(currentWeatherData, completeWeatherData)
-//                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = "Hildesheim", Modifier.align(Alignment.Start), fontSize = 30.sp)
                 MainInfo(currentWeatherData)
                 Spacer(modifier = Modifier.height(16.dp))
                 Footer(currentWeatherData = currentWeatherData)
@@ -91,7 +92,7 @@ private fun Heading(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "${stringResource(id = R.string.today)} ${
+            text = "${stringResource(id = R.string.updated)} ${
                 currentWeatherData.forecastedTime.format(hourMinutesFormatter)
             }"
 

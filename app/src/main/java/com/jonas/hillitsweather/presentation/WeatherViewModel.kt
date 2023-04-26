@@ -27,11 +27,8 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
         viewModelScope.launch {
             state = state.copy(isLoading = true, error = null)
             val result = if (mode == WeatherMode.REAL)
-                repository.getWeatherData(
-                    "52.37895",
-                    "9.684040"
-                ) else
-                repository.getFakeWeatherData("52.37895", "9.684040")
+                repository.getWeatherData("52.157946884085916", "9.965014626514112") else
+                repository.getFakeWeatherData("52.157946884085916", "9.965014626514112")
             when (result) {
                 is Resource.Success -> {
                     state = state.copy(

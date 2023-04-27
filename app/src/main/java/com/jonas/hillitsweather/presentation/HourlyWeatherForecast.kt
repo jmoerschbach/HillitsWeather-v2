@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,26 +35,31 @@ fun HourlyWeatherForecast(
 
     state.completeWeatherData?.let {
         val data = it.hourForecast
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+        Card(
+            shape = RoundedCornerShape(10.dp),
+            modifier = modifier.padding(16.dp)
         ) {
-            Text(
-                text = stringResource(id = R.string.next_hours),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                content = {
-                    items(data) { hourForecast ->
-                        HourlyWeatherDisplay(
-                            weatherData = hourForecast,
-                        )
-                    }
-                })
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.next_hours),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    content = {
+                        items(data) { hourForecast ->
+                            HourlyWeatherDisplay(
+                                weatherData = hourForecast,
+                            )
+                        }
+                    })
+            }
         }
     }
 

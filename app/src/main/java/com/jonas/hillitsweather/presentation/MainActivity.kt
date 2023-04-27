@@ -7,13 +7,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import com.jonas.hillitsweather.BuildConfig
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
 import org.koin.androidx.compose.getViewModel
@@ -41,7 +46,10 @@ class MainActivity : ComponentActivity() {
         weatherViewModel.loadWeather()
         setContent {
             HillitsWeatherTheme {
-                Column {
+                Column(
+                    modifier = Modifier
+//                        .verticalScroll(rememberScrollState())
+                ) {
                     TopAppBarCompose()
                     WeatherUi()
                 }
@@ -56,9 +64,14 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
                 CurrentWeatherCard(state = weatherViewModel.state)
                 HourlyWeatherForecast(state = weatherViewModel.state)
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }
@@ -66,7 +79,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarCompose( weatherViewModel: WeatherViewModel = getViewModel()) {
+fun TopAppBarCompose(weatherViewModel: WeatherViewModel = getViewModel()) {
     val context = LocalContext.current
 
     val menuVisible = remember { mutableStateOf(false) }
@@ -76,8 +89,10 @@ fun TopAppBarCompose( weatherViewModel: WeatherViewModel = getViewModel()) {
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
         actions = {
-            IconButton(onClick = { weatherViewModel.toggleMode()
-                makeToast(context, "Changing to Hillit Mode") }) {
+            IconButton(onClick = {
+                weatherViewModel.toggleMode()
+                makeToast(context, "Changing to Hillit Mode")
+            }) {
                 Icon(
                     imageVector = Icons.Default.Phone,
                     contentDescription = stringResource(id = R.string.search)
@@ -103,40 +118,46 @@ fun TopAppBarCompose( weatherViewModel: WeatherViewModel = getViewModel()) {
                     Text(text = stringResource(id = R.string.about))
                 }, onClick = {
                     aboutPopupVisible.value = true
-                    makeToast(context, "Logout clicked")
+                    menuVisible.value = false
                 })
             }
         })
 
     if (aboutPopupVisible.value) {
-        Popup(
-            alignment = Alignment.Center,
-            onDismissRequest = { aboutPopupVisible.value = false }
-        ) {
-                Column(
-                    modifier = Modifier
-                        .background(Color.White)
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(id = R.drawable.sun),
-                            contentDescription = null,
-                            modifier = Modifier.size(50.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = stringResource(id = R.string.app_name), fontSize = 30.sp)
-                    }
-                    Text(text = stringResource(id = R.string.about_description))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(text = "v1.0.0")
-                        Text(text = "made by Jonas")
-                    }
-                }
+        AboutPopup(onDismissRequest = { aboutPopupVisible.value = false })
+    }
+}
 
+@Composable
+private fun AboutPopup(onDismissRequest: () -> Unit) {
+    Popup(
+        alignment = Alignment.Center,
+        onDismissRequest = onDismissRequest
+    ) {
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .padding(8.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.sun),
+                    contentDescription = null,
+                    modifier = Modifier.size(50.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(id = R.string.app_name), fontSize = 30.sp)
+            }
+            Text(text = stringResource(id = R.string.about_description))
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "v${BuildConfig.VERSION_NAME}")
+                Text(text = "made by Jonas")
+            }
         }
     }
 }

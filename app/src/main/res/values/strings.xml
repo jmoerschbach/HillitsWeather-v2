@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hillits Weather</string>
+    <string name="app_name">Hillit\'s Weather</string>
     <string name="today">Today</string>
     <string name="temperature_template">%1$s°C</string>
     <string name="rainprobability_template">%1$d</string>

@@ -163,7 +163,18 @@ private fun AboutPopup(onDismissRequest: () -> Unit) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = "v${BuildConfig.VERSION_NAME}")
-                    Text(text = "made by Jonas")
+
+                    Row() {
+                        Text(text = "made with")
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.heart),
+                            contentDescription = "love",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(2.dp))
+                        Text(text = "by Jonas")
+                    }
                 }
             }
         }

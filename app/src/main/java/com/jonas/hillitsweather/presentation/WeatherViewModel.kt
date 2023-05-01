@@ -18,8 +18,12 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     private var mode: WeatherMode = WeatherMode.REAL
 
+    var weatherModeIsHillit by mutableStateOf(false)
+        private set
+
     fun toggleMode() {
         mode = if (mode == WeatherMode.HILLIT) WeatherMode.REAL else WeatherMode.HILLIT
+        weatherModeIsHillit = weatherModeIsHillit.not()
         loadWeather()
     }
 

@@ -6,10 +6,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.icons.Icons
@@ -17,16 +16,16 @@ import androidx.compose.material.icons.filled.*
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -86,16 +85,21 @@ fun TopAppBarCompose(weatherViewModel: WeatherViewModel = getViewModel()) {
 
     val aboutPopupVisible = remember { mutableStateOf(false) }
 
+    val sun = if (weatherViewModel.weatherModeIsHillit) ImageVector.vectorResource(
+        id = R.drawable.sun_own_filled
+    ) else ImageVector.vectorResource(id = R.drawable.sun_own)
+
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
         actions = {
             IconButton(onClick = {
                 weatherViewModel.toggleMode()
-                makeToast(context, "Changing to Hillit Mode")
             }) {
                 Icon(
-                    imageVector = Icons.Default.Phone,
-                    contentDescription = stringResource(id = R.string.search)
+                    imageVector = sun,
+                    contentDescription = stringResource(id = R.string.change_mode),
+                    modifier = Modifier.size(30.dp),
+                    tint = if (weatherViewModel.weatherModeIsHillit) Color.Yellow else LocalContentColor.current
                 )
             }
             IconButton(onClick = { makeToast(context, "Sorry, not yet supported ;)") }) {
@@ -134,29 +138,33 @@ private fun AboutPopup(onDismissRequest: () -> Unit) {
         alignment = Alignment.Center,
         onDismissRequest = onDismissRequest
     ) {
-        Column(
-            modifier = Modifier
-                .background(Color.White)
-                .padding(8.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painter = painterResource(id = R.drawable.sun),
-                    contentDescription = null,
-                    modifier = Modifier.size(50.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(text = stringResource(id = R.string.app_name), fontSize = 30.sp)
-            }
-            Text(text = stringResource(id = R.string.about_description))
-
-            Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween
+        Surface(shape = RoundedCornerShape(8.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp),
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "v${BuildConfig.VERSION_NAME}")
-                Text(text = "made by Jonas")
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painter = painterResource(id = R.drawable.sun_own_filled),
+                        contentDescription = null,
+                        modifier = Modifier.size(50.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = stringResource(id = R.string.app_name), fontSize = 30.sp)
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(text = stringResource(id = R.string.about_description))
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.width(300.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "v${BuildConfig.VERSION_NAME}")
+                    Text(text = "made by Jonas")
+                }
             }
         }
     }

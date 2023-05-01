@@ -27,7 +27,6 @@ import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 
-
 @Composable
 fun CurrentWeatherCard(
     state: WeatherState,
@@ -98,12 +97,26 @@ private fun Heading(
 
         )
         Row {
-            Text(
-                text = "A: ${completeWeatherData.sunriseTime.format(hourMinutesFormatter)}",
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.sunrise),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "U: ${completeWeatherData.sunsetTime.format(hourMinutesFormatter)}",
+                text = completeWeatherData.sunriseTime.format(hourMinutesFormatter),
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                imageVector = ImageVector.vectorResource(id = R.drawable.sunset),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = completeWeatherData.sunsetTime.format(hourMinutesFormatter),
             )
         }
     }

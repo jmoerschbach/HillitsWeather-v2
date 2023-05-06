@@ -26,13 +26,9 @@ jobs:
         with:
           gradle-version: current
           arguments: assembleDebug
-      - name: Find artifact name
-        run: |
-          ARTIFACT_PATHNAME_APK=$(ls app/build/outputs/apk/debug/*.apk | head -n 1)
-          echo ${ARTIFACT_PATHNAME_APK}
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${ARTIFACT_PATHNAME_APK}
+          files: app/build/outputs/apk/**/HillitsWeather-*.apk
           name: Test-Release

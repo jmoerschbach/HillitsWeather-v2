@@ -36,7 +36,6 @@ fun CurrentWeatherCard(
     state.completeWeatherData?.let { completeWeatherData ->
         val currentWeatherData = completeWeatherData.current
         Card(
-
             shape = RoundedCornerShape(10.dp),
             modifier = modifier.padding(16.dp)
         ) {

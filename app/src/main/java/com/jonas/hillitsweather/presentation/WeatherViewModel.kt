@@ -40,7 +40,6 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
                         isLoading = false,
                         error = null
                     )
-                    result.data?.current?.iconUrl?.let { Log.d("TAG", it) }
                 }
                 is Resource.Error -> {
                     state = state.copy(

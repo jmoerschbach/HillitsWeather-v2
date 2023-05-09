@@ -3,7 +3,17 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+
+// Initialize a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+
+// Load your keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
 android {
+
     namespace 'com.jonas.hillitsweather'
     compileSdk 33
 
@@ -21,6 +31,15 @@ android {
         }
     }
 
+//    signingConfigs {
+//        release {
+//            storeFile file(keystoreProperties['storeFile'])
+//            storePassword keystoreProperties['storePassword']
+//            keyPassword keystoreProperties['keyPassword']
+//            keyAlias keystoreProperties['keyAlias']
+//        }
+//    }
+
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             outputFileName = "${rootProject.name}-${variant.name}-v${variant.versionName}.apk"
@@ -30,6 +49,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -43,7 +63,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.4'
+        kotlinCompilerExtensionVersion '1.4.7'
     }
     packagingOptions {
         resources {

@@ -25,10 +25,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
-          arguments: assembleDebug
+          arguments: assembleRelease
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        #if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: app/build/outputs/apk/**/HillitsWeather-*.apk
+          files: app/build/outputs/apk/release/HillitsWeather-*.apk
           name: Test-Release

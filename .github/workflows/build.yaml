@@ -36,9 +36,9 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
 
       - name: Create release
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          run: gh release create "$GITHUB_REF_NAME" ${{ steps.sign_app.outputs.signedFile }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" ${{ steps.sign_app.outputs.signedFile }} --generate-notes
 #      - name: Create Release
 #        uses: softprops/action-gh-release@v1
 #        if: startsWith(github.ref, 'refs/tags/')

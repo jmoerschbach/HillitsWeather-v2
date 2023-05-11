@@ -5,7 +5,6 @@ import com.jonas.hillitsweather.data.repository.WeatherRepositoryImpl
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.presentation.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent.get
 import retrofit2.Retrofit

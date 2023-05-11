@@ -6,7 +6,6 @@ import com.jonas.hillitsweather.data.remote.RealWeatherApi
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.domain.util.Resource
 import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
-import com.jonas.hillitsweather.domain.weather.WeatherData
 
 class WeatherRepositoryImpl(private val api: RealWeatherApi) : WeatherRepository {
     override suspend fun getWeatherData(

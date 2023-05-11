@@ -2,7 +2,6 @@ package com.jonas.hillitsweather.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,7 +33,6 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 //import com.jonas.hillitsweather.BuildConfig
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

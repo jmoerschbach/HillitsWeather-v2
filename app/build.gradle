@@ -1,8 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
 }
 
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+dependencies {
+    // optional: additional formatting rules from ktlint
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.18.1")
+//    detektPlugins("io.nlopez.compose.rules:detekt:0.1.5")
+}
 //def keystorePropertiesFile = rootProject.file("keystore.properties")
 
 // Initialize a new Properties() object called keystoreProperties.
@@ -11,6 +19,13 @@ plugins {
 // Load your keystore.properties file into the keystoreProperties object.
 //keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+detekt {
+    buildUponDefaultConfig = true
+    config = files("${project.rootDir}/detekt.yml")
+    autoCorrect = true
+//    disableDefaultRuleSets = true
+
+}
 
 android {
 

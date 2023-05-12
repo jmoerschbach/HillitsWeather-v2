@@ -8,10 +8,10 @@ import com.jonas.hillitsweather.domain.weather.WeatherData
 import com.jonas.hillitsweather.utils.DateTimeHelper
 
 private const val ICON_BASE_URL = "https://openweathermap.org/img/wn/"
+private const val FAKE_TEMPERATURE = 28F
 
 private fun toFakeCurrentWeatherData(current: Current): WeatherData {
 
-    val temperature = 28F
     val windspeed = current.windSpeed
     val humidity = 0
     val pressure = current.pressure
@@ -21,7 +21,7 @@ private fun toFakeCurrentWeatherData(current: Current): WeatherData {
     val iconUrl = "${ICON_BASE_URL}01d@4x.png"
     return WeatherData(
         forecastedTime = time,
-        temperatureCelsius = temperature,
+        temperatureCelsius = FAKE_TEMPERATURE,
         windspeed = windspeed,
         description = description,
         iconUrl = iconUrl,
@@ -29,11 +29,11 @@ private fun toFakeCurrentWeatherData(current: Current): WeatherData {
         pressure = pressure,
     )
 }
-
+@Suppress("MagicNumber")
 private fun toFakeHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
     return hourly.take(24).map {
         val time = DateTimeHelper.toZonedDateTime(it.dt)
-        val temperature = 28F
+        val temperature = FAKE_TEMPERATURE
         val windspeed = it.windSpeed
         val humidity = it.humidity
         val pressure = it.pressure

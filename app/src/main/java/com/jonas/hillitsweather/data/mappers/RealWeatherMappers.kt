@@ -33,7 +33,7 @@ private fun toCurrentWeatherData(current: Current): WeatherData {
 }
 
 
-
+@Suppress("MagicNumber")
 private fun toHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
     return hourly.take(24).map {
         val time = DateTimeHelper.toZonedDateTime(it.dt)

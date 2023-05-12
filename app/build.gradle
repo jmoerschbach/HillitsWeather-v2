@@ -20,7 +20,7 @@ dependencies {
 //keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 detekt {
-    buildUponDefaultConfig = true
+//    buildUponDefaultConfig = true
     config = files("${project.rootDir}/detekt.yml")
     autoCorrect = true
 //    disableDefaultRuleSets = true

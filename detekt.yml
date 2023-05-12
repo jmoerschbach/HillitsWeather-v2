@@ -1,0 +1,73 @@
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+  weights:
+  # complexity: 2
+  # LongParameterList: 1
+  # style: 1
+  # comments: 1
+
+config:
+  validation: true
+  warningsAsErrors: false
+  checkExhaustiveness: false
+  # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
+  excludes: ''
+
+processors:
+  active: true
+  exclude:
+    - 'DetektProgressListener'
+  # - 'KtFileCountProcessor'
+  # - 'PackageCountProcessor'
+  # - 'ClassCountProcessor'
+  # - 'FunctionCountProcessor'
+  # - 'PropertyCountProcessor'
+  # - 'ProjectComplexityProcessor'
+  # - 'ProjectCognitiveComplexityProcessor'
+  # - 'ProjectLLOCProcessor'
+  # - 'ProjectCLOCProcessor'
+  # - 'ProjectLOCProcessor'
+  # - 'ProjectSLOCProcessor'
+  # - 'LicenseHeaderLoaderExtension'
+
+output-reports:
+  active: true
+  exclude:
+   - 'TxtOutputReport'
+   - 'XmlOutputReport'
+ # - 'HtmlOutputReport'
+   - 'MdOutputReport'
+ # - 'SarifOutputReport'
+
+formatting:
+  NoUnusedImports:
+    active: true
+    autoCorrect: true # autocorrect enabled
+  FinalNewline:
+    active: true
+    insertFinalNewLine: true
+    autoCorrect: true # autocorrect enabled
+  style:
+  naming:
+    FunctionNaming:
+      active: true
+      excludes: [ '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**' ]
+      functionPattern: '[a-z][a-zA-Z0-9]*'
+      excludeClassPattern: '$^'
+      ignoreAnnotated: [ 'Composable' ] # ignore this rule on Composables
+    UnusedImports:
+      active: false # disable because we have NoUnusedImports which can autocorrect
+
+  complexity:
+    LongParameterList:
+      active: true
+      functionThreshold: 6
+      constructorThreshold: 7
+      ignoreDefaultParameters: true # don't count default params
+      ignoreDataClasses: true
+      ignoreAnnotatedParameter: [ ]
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false # deactivated for now

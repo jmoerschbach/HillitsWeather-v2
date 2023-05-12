@@ -23,13 +23,14 @@ jobs:
         with:
           distribution: temurin
           java-version: "11"
-      - name: Detekt
-        run: ./gradlew detekt
+
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
           arguments: assembleRelease
+      - name: Detekt
+        run: ./gradlew detekt
       - name: Sign app APK
         uses: ilharp/sign-android-release@v1
         id: sign_app

@@ -23,6 +23,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "11"
+      - name: "detekt"
+          uses: natiginfo/action-detekt-all@1.22.0
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:

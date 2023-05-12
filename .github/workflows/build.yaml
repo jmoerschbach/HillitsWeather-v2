@@ -26,7 +26,7 @@ jobs:
       - name: Detekt
         uses: natiginfo/action-detekt-all@1.22.0
         with:
-          args: --config detekt.xml
+          args: --config detekt.yml
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:

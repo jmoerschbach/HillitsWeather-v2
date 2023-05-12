@@ -1,7 +1,6 @@
 package com.jonas.hillitsweather.presentation
 
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -20,10 +19,8 @@ import coil.compose.AsyncImage
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
 import com.jonas.hillitsweather.domain.weather.WeatherData
-import com.jonas.hillitsweather.ui.theme.DeepBlue
 import com.jonas.hillitsweather.utils.formatTemperature
 import com.jonas.hillitsweather.utils.hourMinutesFormatter
-import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
 

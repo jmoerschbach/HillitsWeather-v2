@@ -23,11 +23,14 @@ jobs:
         with:
           distribution: temurin
           java-version: "11"
+
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
           arguments: assembleRelease
+      - name: Detekt
+        run: gradle detekt
       - name: Sign app APK
         uses: ilharp/sign-android-release@v1
         id: sign_app
@@ -43,10 +46,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Create release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: gh release create "$GITHUB_REF_NAME" ${{ steps.sign_app.outputs.signedFile }} --generate-notes
+      #      - name: Create release
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #        run: gh release create "$GITHUB_REF_NAME" ${{ steps.sign_app.outputs.signedFile }} --generate-notes
 
 
       - name: Create Release

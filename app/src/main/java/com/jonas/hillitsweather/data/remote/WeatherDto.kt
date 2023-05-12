@@ -63,7 +63,7 @@ class Hourly {
     var temp: Float = 0.toFloat()
 
     @field:Json(name = "feels_like")
-    var feels_like: Float = 0.toFloat()
+    var feelsLike: Float = 0.toFloat()
 
     @field:Json(name = "weather")
     var weather = listOf<Weather>()

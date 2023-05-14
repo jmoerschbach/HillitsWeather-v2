@@ -28,7 +28,6 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
     }
 
     fun loadWeather() {
-        Log.d("Jonas", "fetching weather data")
         viewModelScope.launch {
             state = state.copy(isLoading = true, error = null)
             val result = if (mode == WeatherMode.REAL)

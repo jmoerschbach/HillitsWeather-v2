@@ -35,7 +35,6 @@ import androidx.compose.ui.window.Popup
 
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

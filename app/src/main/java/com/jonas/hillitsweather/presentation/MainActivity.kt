@@ -10,9 +10,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -28,9 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-//import com.jonas.hillitsweather.BuildConfig
+
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
 import org.koin.androidx.compose.getViewModel
@@ -40,41 +42,37 @@ class MainActivity : ComponentActivity() {
 
     private val weatherViewModel: WeatherViewModel by viewModel()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         weatherViewModel.loadWeather()
         setContent {
             HillitsWeatherTheme {
-                SwipeRefreshCompose()
+                AppUi()
             }
         }
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    fun SwipeRefreshCompose() {
-        var refreshing by remember { mutableStateOf(false) }
-        LaunchedEffect(refreshing) {
-            if (refreshing) {
-//                delay(1000)
-//                refreshing = weatherViewModel.state.isLoading
-                refreshing = false
-            }
-        }
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshing = refreshing),
-            onRefresh = {
-                weatherViewModel.loadWeather()
-                refreshing = true
-            },
-        ) {
-            Column {
+    private fun AppUi() {
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = weatherViewModel.state.isLoading,
+            onRefresh = { weatherViewModel.loadWeather() }
+        )
+        Box(Modifier.pullRefresh(pullRefreshState)) {
+            Column(Modifier.fillMaxSize()) {
                 TopAppBarCompose()
                 WeatherUi()
             }
+            PullRefreshIndicator(
+                weatherViewModel.state.isLoading,
+                pullRefreshState,
+                Modifier.align(Alignment.TopCenter)
+            )
         }
 
     }
-
 
     @Composable
     private fun WeatherUi() {
@@ -95,6 +93,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

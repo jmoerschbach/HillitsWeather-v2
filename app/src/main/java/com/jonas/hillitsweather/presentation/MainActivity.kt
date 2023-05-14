@@ -50,7 +50,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             HillitsWeatherTheme {
                 AppUi()
-
             }
         }
     }
@@ -58,27 +57,20 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
     private fun AppUi() {
-        var refreshing by remember { mutableStateOf(false) }
-        val refreshScope = rememberCoroutineScope()
-
-        fun refresh() =
-            refreshScope.launch {
-                refreshing = true
-                weatherViewModel.loadWeather()
-                refreshing = false
-
-            }
-
         val pullRefreshState = rememberPullRefreshState(
-            refreshing = refreshing,
-            onRefresh = ::refresh
+            refreshing = weatherViewModel.state.isLoading,
+            onRefresh = { weatherViewModel.loadWeather() }
         )
         Box(Modifier.pullRefresh(pullRefreshState)) {
             Column(Modifier.fillMaxSize()) {
                 TopAppBarCompose()
                 WeatherUi()
             }
-            PullRefreshIndicator(refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
+            PullRefreshIndicator(
+                weatherViewModel.state.isLoading,
+                pullRefreshState,
+                Modifier.align(Alignment.TopCenter)
+            )
         }
 
     }

@@ -12,11 +12,7 @@ dependencies {
 //    detektPlugins("io.nlopez.compose.rules:detekt:0.1.5")
 }
 //def keystorePropertiesFile = rootProject.file("keystore.properties")
-
-// Initialize a new Properties() object called keystoreProperties.
 //def keystoreProperties = new Properties()
-
-// Load your keystore.properties file into the keystoreProperties object.
 //keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 detekt {
@@ -62,7 +58,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            signingConfig signingConfigs.release
         }

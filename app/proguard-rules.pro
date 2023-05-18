@@ -21,9 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 
-
--keep class com.jonas.hillitsweather.** { *; }
-
 # unneeded classes which r8 cannot find (no issue)
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket

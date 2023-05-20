@@ -19,10 +19,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.domain.weather.DailyWeatherData
-import com.jonas.hillitsweather.domain.weather.WeatherData
 import com.jonas.hillitsweather.utils.DateTimeHelper
 import com.jonas.hillitsweather.utils.formatTemperature
-import com.jonas.hillitsweather.utils.hourMinutesFormatter
 
 @Composable
 fun DailyWeatherForecast(

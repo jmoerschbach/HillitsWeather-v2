@@ -59,7 +59,7 @@ private fun toHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
         )
     }
 }
-
+@Suppress("MagicNumber")
 private fun toDailyWeatherForecast(daily: List<Daily>): List<DailyWeatherData> {
     return daily.map {
         val time = DateTimeHelper.toZonedDateTime(it.dt)

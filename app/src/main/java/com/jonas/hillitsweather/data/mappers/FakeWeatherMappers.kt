@@ -8,7 +8,6 @@ import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
 import com.jonas.hillitsweather.domain.weather.DailyWeatherData
 import com.jonas.hillitsweather.domain.weather.WeatherData
 import com.jonas.hillitsweather.utils.DateTimeHelper
-import kotlin.math.roundToInt
 
 private const val ICON_BASE_URL = "https://openweathermap.org/img/wn/"
 private const val FAKE_TEMPERATURE = 28F

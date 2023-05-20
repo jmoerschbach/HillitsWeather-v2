@@ -88,6 +88,7 @@ class MainActivity : ComponentActivity() {
             ) {
                 CurrentWeatherCard(state = weatherViewModel.state)
                 HourlyWeatherForecast(state = weatherViewModel.state)
+                DailyWeatherForecast(state = weatherViewModel.state)
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }

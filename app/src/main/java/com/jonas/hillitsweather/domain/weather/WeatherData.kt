@@ -6,7 +6,8 @@ data class CompleteWeatherData(
     val sunriseTime: ZonedDateTime,
     val sunsetTime: ZonedDateTime,
     val current: WeatherData,
-    val hourForecast: List<WeatherData>
+    val hourForecast: List<WeatherData>,
+    val dailyForecast: List<DailyWeatherData>
 )
 
 data class WeatherData(
@@ -18,4 +19,20 @@ data class WeatherData(
     val humidity: Int,
     val pressure: Int,
     val rainProbability: Int? = null
+)
+
+data class DailyWeatherData(
+    val forecastedTime: ZonedDateTime,
+    val temperatureMinCelsius: Float,
+    val temperatureMaxCelsius: Float,
+    val temperatureNightCelsius: Float,
+    val temperatureDayCelsius: Float,
+    val windspeed: Float,
+    val description: String,
+    val iconUrl: String,
+    val humidity: Int,
+    val pressure: Int,
+    val rainProbability: Int,
+    val temperatureMorningCelsius: Float? = null,
+    val temperatureEveningCelsius: Float? = null,
 )

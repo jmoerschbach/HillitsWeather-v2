@@ -1,9 +1,11 @@
 package com.jonas.hillitsweather.data.mappers
 
 import com.jonas.hillitsweather.data.remote.Current
+import com.jonas.hillitsweather.data.remote.Daily
 import com.jonas.hillitsweather.data.remote.Hourly
 import com.jonas.hillitsweather.data.remote.WeatherDataDto
 import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
+import com.jonas.hillitsweather.domain.weather.DailyWeatherData
 import com.jonas.hillitsweather.domain.weather.WeatherData
 import com.jonas.hillitsweather.utils.DateTimeHelper
 import kotlin.math.roundToInt
@@ -58,11 +60,38 @@ private fun toHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
     }
 }
 
+private fun toDailyWeatherForecast(daily: List<Daily>): List<DailyWeatherData> {
+    return daily.map {
+        val time = DateTimeHelper.toZonedDateTime(it.dt)
+        val temperature = it.temp!!
+        val windspeed = it.windSpeed
+        val humidity = it.humidity
+        val pressure = it.pressure
+        val rainProbability = (it.rainProbability * 100).roundToInt()
+        val description = it.weather[0].description!!
+        val iconUrl = "${ICON_BASE_URL}${it.weather[0].icon}@4x.png"
+
+        DailyWeatherData(
+            forecastedTime = time,
+            temperatureDayCelsius = temperature.day,
+            temperatureNightCelsius = temperature.night,
+            temperatureMaxCelsius = temperature.max,
+            temperatureMinCelsius = temperature.min,
+            windspeed = windspeed,
+            description = description,
+            iconUrl = iconUrl,
+            humidity = humidity,
+            pressure = pressure,
+            rainProbability = rainProbability,
+        )
+    }
+}
 
 
 fun WeatherDataDto.toCompleteWeatherData(): CompleteWeatherData {
     val currentWeather = current?.let { toCurrentWeatherData(it) }
     val hourForecast = toHourlyWeatherForecast(hourly)
+    val dailyForecast = toDailyWeatherForecast(daily)
     val sunrise = DateTimeHelper.toZonedDateTime(current!!.sunrise)
     val sunset = DateTimeHelper.toZonedDateTime(current!!.sunset)
 
@@ -70,7 +99,8 @@ fun WeatherDataDto.toCompleteWeatherData(): CompleteWeatherData {
         sunriseTime = sunrise,
         sunsetTime = sunset,
         current = currentWeather!!,
-        hourForecast = hourForecast
+        hourForecast = hourForecast,
+        dailyForecast = dailyForecast
     )
 }
 

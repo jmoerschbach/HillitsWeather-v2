@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Hillit\'s Weather</string>
     <string name="today">Today</string>
-    <string name="temperature_template">%1$s°C</string>
-    <string name="rainprobability_template">%1$d</string>
+    <string name="temperature_template" translatable="false">%1$s°C</string>
+    <string name="rainprobability_template" translatable="false">%1$d</string>
     <string name="next_hours">Next hours</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>

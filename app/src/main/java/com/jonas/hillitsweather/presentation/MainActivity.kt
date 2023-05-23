@@ -182,7 +182,7 @@ private fun AboutPopup(onDismissRequest: () -> Unit) {
                     modifier = Modifier.width(300.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "v23.05.01")
+                    Text(text = "v23.05.23")
 
                     Row {
                         Text(text = "made with")

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hillit\'s Wetter</string>
+    <string name="today">Heute</string>
+    <string name="next_hours">Die nächsten Stunden</string>
+    <string name="search">Suche</string>
+    <string name="settings">Einstellungen</string>
+    <string name="about">Über</string>
+    <string name="about_description">Persönliche Wetter-App für Hillit mit\nOption zur optimierten Wettervorhersage</string>
+    <string name="updated">Aktualisiert</string>
+    <string name="change_mode">Ändere Modus</string>
+    <string name="next_days">Die nächsten Tage</string>
+</resources>

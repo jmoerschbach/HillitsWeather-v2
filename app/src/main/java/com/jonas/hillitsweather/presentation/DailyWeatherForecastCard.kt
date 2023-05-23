@@ -18,18 +18,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jonas.hillitsweather.R
-import com.jonas.hillitsweather.domain.weather.WeatherData
-import com.jonas.hillitsweather.utils.hourMinutesFormatter
+import com.jonas.hillitsweather.domain.weather.DailyWeatherData
+import com.jonas.hillitsweather.utils.DateTimeHelper
 import kotlin.math.roundToInt
 
 @Composable
-fun HourlyWeatherForecast(
+fun DailyWeatherForecast(
     state: WeatherState,
     modifier: Modifier = Modifier
 ) {
 
     state.completeWeatherData?.let {
-        val data = it.hourForecast
+        val data = it.dailyForecast
         Card(
             shape = RoundedCornerShape(10.dp),
             modifier = modifier.padding(16.dp)
@@ -40,7 +40,7 @@ fun HourlyWeatherForecast(
                     .padding(16.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.next_hours),
+                    text = stringResource(id = R.string.next_days),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -48,9 +48,9 @@ fun HourlyWeatherForecast(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     content = {
-                        items(data) { hourForecast ->
-                            HourlyWeatherDisplay(
-                                weatherData = hourForecast,
+                        items(data) { dailyForecast ->
+                            DailyWeatherDisplay(
+                                weatherData = dailyForecast,
                             )
                         }
                     })
@@ -62,33 +62,48 @@ fun HourlyWeatherForecast(
 }
 
 @Composable
-private fun HourlyWeatherDisplay(
-    weatherData: WeatherData,
-    modifier: Modifier = Modifier,
+private fun DailyWeatherDisplay(
+    weatherData: DailyWeatherData,
 ) {
-    val formattedTime = remember(weatherData) {
-        weatherData.forecastedTime.format(hourMinutesFormatter)
+    val weekDay = remember(weatherData) {
+        DateTimeHelper.toDayString(weatherData.forecastedTime)
+    }
+    val date = remember(weatherData) {
+        DateTimeHelper.toDayMonthString(weatherData.forecastedTime)
     }
     Column(
-        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = formattedTime,
+            text = weekDay,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = date,
+            fontSize = 10.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(
                 id = R.string.temperature_template,
-                weatherData.temperatureCelsius.roundToInt()
+                weatherData.temperatureMaxCelsius.roundToInt()
             ),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp
         )
+        Spacer(modifier = Modifier.height(2.dp))
+
+        Text(
+            text = stringResource(
+                id = R.string.temperature_template,
+                weatherData.temperatureMinCelsius.roundToInt()
+            ),
+            fontWeight = FontWeight.Normal
+        )
         AsyncImage(model = weatherData.iconUrl, contentDescription = weatherData.description)
         IconValuePair(
-            value = weatherData.rainProbability!!, unit = "%", icon = ImageVector.vectorResource(
+            value = weatherData.rainProbability, unit = "%", icon = ImageVector.vectorResource(
                 id = R.drawable.ic_drop
             )
         )

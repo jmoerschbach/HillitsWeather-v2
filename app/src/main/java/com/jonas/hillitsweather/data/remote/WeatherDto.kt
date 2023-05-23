@@ -19,9 +19,9 @@ class WeatherDataDto {
 
     @field:Json(name = "hourly")
     var hourly = listOf<Hourly>()
-//
-//    @field:Json(name = "daily")
-//    var daily = ArrayList<Daily>()
+
+    @field:Json(name = "daily")
+    var daily = listOf<Daily>()
 }
 @Keep
 class Current {
@@ -88,7 +88,7 @@ class Hourly {
     var pressure: Int = 0
 }
 
-/*
+@Keep
 class Daily {
     @field:Json(name = "dt")
     var dt: Long = 0
@@ -116,8 +116,15 @@ class Daily {
 
     @field:Json(name = "weather")
     var weather = listOf<Weather>()
+
+    @field:Json(name = "humidity")
+    var humidity: Int = 0
+
+    @field:Json(name = "pressure")
+    var pressure: Int = 0
 }
 
+@Keep
 class Temperature {
     @field:Json(name = "day")
     var day: Float = 0.toFloat()
@@ -138,7 +145,7 @@ class Temperature {
     var morning: Float = 0.toFloat()
 
 }
-*/
+
 @Keep
 class Weather {
     @field:Json(name = "id")

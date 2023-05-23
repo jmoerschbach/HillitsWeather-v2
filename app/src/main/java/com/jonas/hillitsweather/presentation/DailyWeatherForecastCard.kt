@@ -20,7 +20,7 @@ import coil.compose.AsyncImage
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.domain.weather.DailyWeatherData
 import com.jonas.hillitsweather.utils.DateTimeHelper
-import com.jonas.hillitsweather.utils.formatTemperature
+import kotlin.math.roundToInt
 
 @Composable
 fun DailyWeatherForecast(
@@ -64,7 +64,6 @@ fun DailyWeatherForecast(
 @Composable
 private fun DailyWeatherDisplay(
     weatherData: DailyWeatherData,
-    modifier: Modifier = Modifier,
 ) {
     val weekDay = remember(weatherData) {
         DateTimeHelper.toDayString(weatherData.forecastedTime)
@@ -73,7 +72,6 @@ private fun DailyWeatherDisplay(
         DateTimeHelper.toDayMonthString(weatherData.forecastedTime)
     }
     Column(
-        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -83,14 +81,25 @@ private fun DailyWeatherDisplay(
         )
         Text(
             text = date,
+            fontSize = 10.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(
                 id = R.string.temperature_template,
-                weatherData.temperatureDayCelsius.formatTemperature()
+                weatherData.temperatureMaxCelsius.roundToInt()
             ),
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
+        )
+        Spacer(modifier = Modifier.height(2.dp))
+
+        Text(
+            text = stringResource(
+                id = R.string.temperature_template,
+                weatherData.temperatureMinCelsius.roundToInt()
+            ),
+            fontWeight = FontWeight.Normal
         )
         AsyncImage(model = weatherData.iconUrl, contentDescription = weatherData.description)
         IconValuePair(

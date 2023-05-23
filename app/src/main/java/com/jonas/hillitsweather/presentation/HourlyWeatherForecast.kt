@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.domain.weather.WeatherData
-import com.jonas.hillitsweather.utils.formatTemperature
 import com.jonas.hillitsweather.utils.hourMinutesFormatter
+import kotlin.math.roundToInt
 
 @Composable
 fun HourlyWeatherForecast(
@@ -81,9 +81,10 @@ private fun HourlyWeatherDisplay(
         Text(
             text = stringResource(
                 id = R.string.temperature_template,
-                weatherData.temperatureCelsius.formatTemperature()
+                weatherData.temperatureCelsius.roundToInt()
             ),
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp
         )
         AsyncImage(model = weatherData.iconUrl, contentDescription = weatherData.description)
         IconValuePair(

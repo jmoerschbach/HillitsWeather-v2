@@ -19,7 +19,6 @@ import coil.compose.AsyncImage
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
 import com.jonas.hillitsweather.domain.weather.WeatherData
-import com.jonas.hillitsweather.utils.formatTemperature
 import com.jonas.hillitsweather.utils.hourMinutesFormatter
 import kotlin.math.roundToInt
 
@@ -67,7 +66,7 @@ private fun MainInfo(currentWeatherData: WeatherData) {
     Text(
         text = stringResource(
             id = R.string.temperature_template,
-            currentWeatherData.temperatureCelsius.formatTemperature()
+            currentWeatherData.temperatureCelsius.roundToInt()
         ),
         fontSize = 50.sp,
     )
@@ -154,7 +153,7 @@ fun IconValuePair(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = TextStyle(),
-    iconTint: Color = /*if (isSystemInDarkTheme())*/ MaterialTheme.colorScheme.onSurface/* else Color.Black*/
+    iconTint: Color = MaterialTheme.colorScheme.onSurface
 ) {
     Row(
         modifier = modifier,

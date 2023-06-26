@@ -13,5 +13,8 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+
+        val answer = this.javaClass.getResourceAsStream("forecast.json")
+        println(answer)
     }
 }

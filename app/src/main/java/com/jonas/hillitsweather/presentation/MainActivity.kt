@@ -52,10 +52,11 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
     @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    private fun AppUi() {
+    private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
         val pullRefreshState = rememberPullRefreshState(
             refreshing = weatherViewModel.state.isLoading,
             onRefresh = { weatherViewModel.loadWeather() }
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun WeatherUi() {
+    fun WeatherUi(weatherViewModel: WeatherViewModel = getViewModel()) {
         // A surface container using the 'background' color from the theme
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -93,7 +94,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)

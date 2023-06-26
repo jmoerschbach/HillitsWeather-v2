@@ -4,8 +4,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val APP_ID = "a4c3f382fb9edbcbf500bfc77aa7a307"
-private const val EXCLUDES="alerts,minutely"
-interface RealWeatherApi {
+private const val EXCLUDES = "alerts,minutely"
+
+interface OpenWeatherMapApi {
 
     @GET("data/2.5/onecall?appId=${APP_ID}&exclude=${EXCLUDES}")
     suspend fun getWeatherDataOneCall(

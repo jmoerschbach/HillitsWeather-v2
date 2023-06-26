@@ -19,6 +19,10 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+        val instrumentationContext = InstrumentationRegistry.getInstrumentation().context
         assertEquals("com.jonas.hillitsweather", appContext.packageName)
+
+        instrumentationContext.resources.assets.open("forecast.json")
     }
 }

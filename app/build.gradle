@@ -6,6 +6,7 @@ plugins {
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
+
 dependencies {
     // optional: additional formatting rules from ktlint
     detektPlugins('io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0')
@@ -22,6 +23,8 @@ detekt {
 //    disableDefaultRuleSets = true
 
 }
+
+
 
 android {
 
@@ -62,6 +65,10 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            signingConfig signingConfigs.release
+
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
@@ -71,12 +78,25 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.7'
     }
+    testOptions  {
+        unitTests {
+            includeAndroidResources = true
+        }
+        // to avoid mokk lib issue https://github.com/mockk/mockk/issues/297#issuecomment-901924678
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
@@ -106,7 +126,10 @@ dependencies {
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    testImplementation 'com.squareup.retrofit2:retrofit-mock:2.9.0'
 
+    //Mockk
+    androidTestImplementation "io.mockk:mockk-android:1.12.5"
 
 
     //workaround https://github.com/android/android-test/issues/1755

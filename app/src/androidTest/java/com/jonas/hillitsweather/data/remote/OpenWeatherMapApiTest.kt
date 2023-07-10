@@ -34,13 +34,13 @@ class OpenWeatherMapApiTest {
     @Test
     fun testValidInterface() {
         runTest {
-            val interceptor = checkQueryParamsInterceptor("23", "5", "de", "metric")
+            val interceptor = checkQueryParamsInterceptor("51.1955", "7.0085", "de", "metric")
             val builder = OkHttpClient.Builder()
             builder.interceptors().add(interceptor)
             val api = provideOpenWeatherMapApi(builder.build())
 
 
-            api.getWeatherDataOneCall("23", "5", "de", "metric")
+            api.getWeatherDataOneCall("51.1955", "7.0085", "de", "metric")
         }
     }
 

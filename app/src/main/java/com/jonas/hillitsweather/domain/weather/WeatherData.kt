@@ -33,6 +33,6 @@ data class DailyWeatherData(
     val humidity: Int,
     val pressure: Int,
     val rainProbability: Int,
-    val temperatureMorningCelsius: Float? = null,
-    val temperatureEveningCelsius: Float? = null,
+    val temperatureMorningCelsius: Float,
+    val temperatureEveningCelsius: Float
 )

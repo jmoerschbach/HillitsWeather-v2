@@ -1,7 +1,7 @@
 package com.jonas.hillitsweather.di
 
 import com.jonas.hillitsweather.data.remote.OpenWeatherMapApi
-import com.jonas.hillitsweather.data.repository.WeatherRepositoryImpl
+import com.jonas.hillitsweather.data.repository.OpenWeatherMapRepository
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.presentation.WeatherViewModel
 import okhttp3.OkHttpClient
@@ -22,6 +22,6 @@ fun provideOpenWeatherMapApi(client: OkHttpClient = OkHttpClient()): OpenWeather
 
 val appModule = module {
     single { provideOpenWeatherMapApi() }
-    single<WeatherRepository> { WeatherRepositoryImpl(get()) }
+    single<WeatherRepository> { OpenWeatherMapRepository(get()) }
     viewModel { WeatherViewModel(get()) }
 }

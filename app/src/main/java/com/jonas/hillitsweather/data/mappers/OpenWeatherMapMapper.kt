@@ -83,6 +83,8 @@ private fun toDailyWeatherForecast(daily: List<Daily>): List<DailyWeatherData> {
             humidity = humidity,
             pressure = pressure,
             rainProbability = rainProbability,
+            temperatureEveningCelsius = temperature.evening,
+            temperatureMorningCelsius = temperature.morning
         )
     }
 }

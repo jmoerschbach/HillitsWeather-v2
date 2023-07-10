@@ -7,7 +7,7 @@ import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.domain.util.Resource
 import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
 
-class WeatherRepositoryImpl(private val api: OpenWeatherMapApi) : WeatherRepository {
+class OpenWeatherMapRepository(private val api: OpenWeatherMapApi) : WeatherRepository {
     override suspend fun getWeatherData(
         lat: String,
         lon: String

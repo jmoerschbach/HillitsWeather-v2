@@ -6,6 +6,7 @@ plugins {
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
 
+
 dependencies {
     // optional: additional formatting rules from ktlint
     detektPlugins('io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0')
@@ -22,6 +23,8 @@ detekt {
 //    disableDefaultRuleSets = true
 
 }
+
+
 
 android {
 
@@ -62,6 +65,10 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //            signingConfig signingConfigs.release
+
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
     compileOptions {
@@ -71,17 +78,32 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.7'
     }
+    testOptions  {
+        unitTests {
+            includeAndroidResources = true
+        }
+        // to avoid mokk lib issue https://github.com/mockk/mockk/issues/297#issuecomment-901924678
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
+
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+
 }
 
 dependencies {
@@ -92,7 +114,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.compose.material3:material3:1.2.0-alpha01'
-    implementation 'androidx.compose.material:material:1.5.0-alpha04'
+    implementation "androidx.compose.material:material:$compose_version"
 
     //coil
     implementation('io.coil-kt:coil-compose:2.4.0')
@@ -104,6 +126,14 @@ dependencies {
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    testImplementation 'com.squareup.retrofit2:retrofit-mock:2.9.0'
+
+    //Mockk
+    androidTestImplementation "io.mockk:mockk-android:1.12.5"
+
+
+    //workaround https://github.com/android/android-test/issues/1755
+    debugImplementation "androidx.tracing:tracing:1.1.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

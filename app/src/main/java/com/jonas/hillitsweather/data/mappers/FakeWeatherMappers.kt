@@ -79,6 +79,8 @@ private fun toFakeDailyWeatherForecast(daily: List<Daily>): List<DailyWeatherDat
             humidity = humidity,
             pressure = pressure,
             rainProbability = rainProbability,
+            temperatureMorningCelsius = FAKE_TEMPERATURE,
+            temperatureEveningCelsius = FAKE_TEMPERATURE
         )
     }
 }

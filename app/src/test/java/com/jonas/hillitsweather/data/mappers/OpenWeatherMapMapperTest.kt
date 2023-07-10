@@ -1,4 +1,4 @@
-package com.jonas.hillitsweather
+package com.jonas.hillitsweather.data.mappers
 
 import org.junit.Test
 
@@ -9,7 +9,7 @@ import org.junit.Assert.assertEquals
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class OpenWeatherMapMapperTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)

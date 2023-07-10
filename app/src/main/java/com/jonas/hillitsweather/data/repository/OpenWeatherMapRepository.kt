@@ -2,12 +2,12 @@ package com.jonas.hillitsweather.data.repository
 
 import com.jonas.hillitsweather.data.mappers.toCompleteWeatherData
 import com.jonas.hillitsweather.data.mappers.toFakeCompleteWeatherData
-import com.jonas.hillitsweather.data.remote.RealWeatherApi
+import com.jonas.hillitsweather.data.remote.OpenWeatherMapApi
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.domain.util.Resource
 import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
 
-class WeatherRepositoryImpl(private val api: RealWeatherApi) : WeatherRepository {
+class OpenWeatherMapRepository(private val api: OpenWeatherMapApi) : WeatherRepository {
     override suspend fun getWeatherData(
         lat: String,
         lon: String

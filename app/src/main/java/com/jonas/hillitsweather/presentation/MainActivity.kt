@@ -54,47 +54,49 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = weatherViewModel.state.isLoading,
-            onRefresh = { weatherViewModel.loadWeather() }
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = weatherViewModel.state.isLoading,
+        onRefresh = {
+            weatherViewModel.loadWeather()
+            weatherViewModel.loadLocation()
+        }
+    )
+    Box(Modifier.pullRefresh(pullRefreshState)) {
+        Column(Modifier.fillMaxSize()) {
+            TopAppBarCompose()
+            WeatherUi()
+        }
+        PullRefreshIndicator(
+            weatherViewModel.state.isLoading,
+            pullRefreshState,
+            Modifier.align(Alignment.TopCenter)
         )
-        Box(Modifier.pullRefresh(pullRefreshState)) {
-            Column(Modifier.fillMaxSize()) {
-                TopAppBarCompose()
-                WeatherUi()
-            }
-            PullRefreshIndicator(
-                weatherViewModel.state.isLoading,
-                pullRefreshState,
-                Modifier.align(Alignment.TopCenter)
-            )
-        }
-
     }
 
-    @Composable
-    fun WeatherUi(weatherViewModel: WeatherViewModel = getViewModel()) {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+}
+
+@Composable
+fun WeatherUi(weatherViewModel: WeatherViewModel = getViewModel()) {
+    // A surface container using the 'background' color from the theme
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                CurrentWeatherCard(state = weatherViewModel.state)
-                HourlyWeatherForecast(state = weatherViewModel.state)
-                DailyWeatherForecast(state = weatherViewModel.state)
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            CurrentWeatherCard(state = weatherViewModel.state)
+            HourlyWeatherForecast(state = weatherViewModel.state)
+            DailyWeatherForecast(state = weatherViewModel.state)
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
-
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)

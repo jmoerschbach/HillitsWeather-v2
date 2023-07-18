@@ -1,16 +1,18 @@
 package com.jonas.hillitsweather.presentation
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jonas.hillitsweather.domain.repository.LocationRepository
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.domain.util.Resource
 import kotlinx.coroutines.launch
 
 
-class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
+class WeatherViewModel(private val repository: WeatherRepository, private val locationRepo: LocationRepository) : ViewModel() {
 
     var state by mutableStateOf(WeatherState())
         private set
@@ -46,6 +48,18 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
                         isLoading = false,
                         error = result.message
                     )
+                }
+            }
+        }
+    }
+
+    fun loadLocation() {
+        viewModelScope.launch {
+            Log.d("Jonas", "fetching location")
+            val result = locationRepo.getLocation("Stutt")
+            result.data.let {
+                if (it != null) {
+                    Log.d("Jonas", "${it.lon} ${it.lon} ${it.lon}")
                 }
             }
         }

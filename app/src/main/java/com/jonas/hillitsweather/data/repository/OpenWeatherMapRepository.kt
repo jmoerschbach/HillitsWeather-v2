@@ -38,7 +38,6 @@ class OpenWeatherMapRepository(private val api: OpenWeatherMapApi) : WeatherRepo
     }
 
     companion object {
-        const val baseUrl = "https://api.openweathermap.org/"
         var lang = "de"
         var units = "metric"
     }

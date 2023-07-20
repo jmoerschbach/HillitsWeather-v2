@@ -1,25 +1,22 @@
 package com.jonas.hillitsweather.data.repository
 
-import android.util.Log
-import com.jonas.hillitsweather.data.mappers.toCompleteWeatherData
-import com.jonas.hillitsweather.data.mappers.toLocationData
+import com.jonas.hillitsweather.data.mappers.toLocationList
 import com.jonas.hillitsweather.data.remote.GeoapifyApi
 import com.jonas.hillitsweather.domain.repository.LocationRepository
 import com.jonas.hillitsweather.domain.util.Resource
-import com.jonas.hillitsweather.domain.weather.CompleteWeatherData
-import com.jonas.hillitsweather.domain.weather.LocationData
+import com.jonas.hillitsweather.domain.weather.Location
 
 class GeoapifyRepository(private val api: GeoapifyApi) : LocationRepository {
 
-    override suspend fun getLocation(name: String): Resource<LocationData> {
+    override suspend fun getPossibleLocations(name: String): Resource<List<Location>> {
 
         return try {
             Resource.Success(
-                data = api.getLocation(
+                data = api.getMatchingLocations(
                     name,
                     lang,
-                    "json"
-                ).toLocationData()
+                    format
+                ).toLocationList()
 
             )
         } catch (e: Exception) {
@@ -31,6 +28,6 @@ class GeoapifyRepository(private val api: GeoapifyApi) : LocationRepository {
 
     companion object {
         var lang = "de"
-        var units = "metric"
+        var format = "json"
     }
 }

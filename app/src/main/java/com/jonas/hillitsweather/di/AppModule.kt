@@ -6,6 +6,7 @@ import com.jonas.hillitsweather.data.repository.GeoapifyRepository
 import com.jonas.hillitsweather.data.repository.OpenWeatherMapRepository
 import com.jonas.hillitsweather.domain.repository.LocationRepository
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
+import com.jonas.hillitsweather.presentation.LocationViewModel
 import com.jonas.hillitsweather.presentation.WeatherViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,5 +42,6 @@ val appModule = module {
     single { provideGeoApi(client) }
     single<WeatherRepository> { OpenWeatherMapRepository(get()) }
     single<LocationRepository> { GeoapifyRepository(get()) }
-    viewModel { WeatherViewModel(get(), get()) }
+    viewModel { WeatherViewModel(get()) }
+    viewModel { LocationViewModel(get()) }
 }

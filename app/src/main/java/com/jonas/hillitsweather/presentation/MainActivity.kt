@@ -61,7 +61,6 @@ private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
         refreshing = weatherViewModel.state.isLoading,
         onRefresh = {
             weatherViewModel.loadWeather()
-            weatherViewModel.loadLocation()
         }
     )
     Box(Modifier.pullRefresh(pullRefreshState)) {

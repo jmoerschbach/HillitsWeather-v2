@@ -5,5 +5,5 @@ import com.jonas.hillitsweather.domain.weather.Location
 
 interface LocationRepository {
 
-    suspend fun getPossibleLocations(name: String): Resource<List<Location>>
+    suspend fun getPossibleLocations(cityNamePart: String): Resource<List<Location>>
 }

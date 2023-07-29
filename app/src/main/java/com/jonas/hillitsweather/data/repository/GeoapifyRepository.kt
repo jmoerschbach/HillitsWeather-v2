@@ -8,12 +8,12 @@ import com.jonas.hillitsweather.domain.weather.Location
 
 class GeoapifyRepository(private val api: GeoapifyApi) : LocationRepository {
 
-    override suspend fun getPossibleLocations(name: String): Resource<List<Location>> {
+    override suspend fun getPossibleLocations(cityNamePart: String): Resource<List<Location>> {
 
         return try {
             Resource.Success(
                 data = api.getMatchingLocations(
-                    name,
+                    cityNamePart,
                     lang,
                     format
                 ).toLocationList()

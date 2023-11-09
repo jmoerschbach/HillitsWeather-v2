@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -25,7 +24,7 @@ class LocationViewModel(private val locationRepo: LocationRepository) : ViewMode
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
-     val _foundLocations = MutableStateFlow(listOf<Location>())
+    val _foundLocations = MutableStateFlow(listOf<Location>())
 
     val foundLocations2 = _foundLocations.asStateFlow()
 
@@ -49,15 +48,18 @@ class LocationViewModel(private val locationRepo: LocationRepository) : ViewMode
         _searchText.value = cityNamePart
     }
 
-     fun onSearchTextChanged(cityNamePart: String) {
+    fun onSearchTextChanged(cityNamePart: String) {
         viewModelScope.launch {
 
             Log.d("Jonas", "fetching location")
+            _foundLocations.value = listOf()
             _searchText.value = cityNamePart
+            _isSearching.value = true
             val result = locationRepo.getPossibleLocations(cityNamePart)
-            result.data.let {
-                _foundLocations.value = result.data!!
-                if (!it.isNullOrEmpty()) {
+            _isSearching.value = false
+            result.data?.let {
+                if (it.isNotEmpty()) {
+                    _foundLocations.value = it
                     val x = it[0]
                     Log.d("Jonas", "${x.lon} ${x.lon} ${x.formattedAdress}")
                 }

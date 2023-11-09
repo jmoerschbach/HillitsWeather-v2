@@ -1,9 +1,12 @@
 package com.jonas.hillitsweather.presentation
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,12 +25,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.jonas.hillitsweather.domain.weather.Location
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LocationChooserActivitiy : ComponentActivity() {
+class LocationChooserActivity : ComponentActivity() {
+
+    private val locationViewModel: LocationViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             HillitsWeatherTheme {
                 // A surface container using the 'background' color from the theme
@@ -34,18 +43,29 @@ class LocationChooserActivitiy : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SearchLocation(modifier = Modifier)
+                    SearchLocation(modifier = Modifier, this::onLocationClicked)
                 }
             }
         }
     }
+
+     private fun onLocationClicked(location: Location) {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra("lon", location.lon)
+            putExtra("lat", location.lat)
+            putExtra("city", location.city)
+            putExtra("formattedAddress", location.formattedAdress)
+        })
+        finish()
+    }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-private fun SearchLocation(modifier: Modifier, viewModel: LocationViewModel = getViewModel()) {
+private fun SearchLocation(modifier: Modifier, onItemClicked: (Location) -> Unit, viewModel: LocationViewModel = getViewModel()) {
     val searchText by viewModel.searchText.collectAsState()
     val locations by viewModel.foundLocations2.collectAsState()
+    val isLoading by viewModel.isSearching.collectAsState()
     Column(
         modifier
             .fillMaxSize()
@@ -58,6 +78,9 @@ private fun SearchLocation(modifier: Modifier, viewModel: LocationViewModel = ge
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+//        if(isLoading) {
+//            PullRefreshIndicator(refreshing = isLoading , state = )
+//        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,6 +92,7 @@ private fun SearchLocation(modifier: Modifier, viewModel: LocationViewModel = ge
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
+                        .clickable { onItemClicked(location) }
                 )
 
             }

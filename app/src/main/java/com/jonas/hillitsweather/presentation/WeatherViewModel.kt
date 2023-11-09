@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.domain.util.Resource
+import com.jonas.hillitsweather.domain.weather.Location
 import kotlinx.coroutines.launch
 
 
@@ -17,6 +18,8 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
         private set
 
     private var mode: WeatherMode = WeatherMode.REAL
+
+    var currentLocation: Location? = null
 
     var weatherModeIsHillit by mutableStateOf(false)
         private set
@@ -29,24 +32,30 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     fun loadWeather() {
         viewModelScope.launch {
-            state = state.copy(isLoading = true, error = null)
-            val result = if (mode == WeatherMode.REAL)
-                repository.getWeatherData("52.157946884085916", "9.965014626514112") else
-                repository.getFakeWeatherData("52.157946884085916", "9.965014626514112")
-            when (result) {
-                is Resource.Success -> {
-                    state = state.copy(
-                        completeWeatherData = result.data,
-                        isLoading = false,
-                        error = null
-                    )
-                }
-                is Resource.Error -> {
-                    state = state.copy(
-                        completeWeatherData = null,
-                        isLoading = false,
-                        error = result.message
-                    )
+            currentLocation?.let {
+                val lon = currentLocation?.lon.toString()
+                val lat = currentLocation?.lat.toString()
+
+                state = state.copy(isLoading = true, error = null)
+                val result = if (mode == WeatherMode.REAL)
+                    repository.getWeatherData(lat, lon) else
+                    repository.getFakeWeatherData(lat, lon)
+                when (result) {
+                    is Resource.Success -> {
+                        state = state.copy(
+                            completeWeatherData = result.data,
+                            isLoading = false,
+                            error = null
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        state = state.copy(
+                            completeWeatherData = null,
+                            isLoading = false,
+                            error = result.message
+                        )
+                    }
                 }
             }
         }

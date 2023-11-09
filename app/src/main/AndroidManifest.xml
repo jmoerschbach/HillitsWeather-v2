@@ -12,6 +12,7 @@
         android:roundIcon="@drawable/sun_own_filled"
         android:supportsRtl="true"
         android:theme="@style/Theme.HillitsWeather"
+        android:appCategory="news"
         android:name=".MainApplication"
         tools:targetApi="31">
         <activity

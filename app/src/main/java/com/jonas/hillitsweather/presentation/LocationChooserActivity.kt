@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jonas.hillitsweather.domain.weather.Location
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
+import com.jonas.hillitsweather.utils.PickLocationContract.Companion.KEY_LOCATION
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -51,10 +52,7 @@ class LocationChooserActivity : ComponentActivity() {
 
      private fun onLocationClicked(location: Location) {
         setResult(Activity.RESULT_OK, Intent().apply {
-            putExtra("lon", location.lon)
-            putExtra("lat", location.lat)
-            putExtra("city", location.city)
-            putExtra("formattedAddress", location.formattedAdress)
+            putExtra(KEY_LOCATION, location)
         })
         finish()
     }

@@ -133,7 +133,7 @@ fun TopAppBarCompose(weatherViewModel: WeatherViewModel = getViewModel()) {
                     tint = if (weatherViewModel.weatherModeIsHillit) Color.Yellow else LocalContentColor.current
                 )
             }
-            IconButton(onClick = { locationActivityLauncher.launch(Unit)/*makeToast(context, "Sorry, not yet supported ;)")*/ }) {
+            IconButton(onClick = { locationActivityLauncher.launch(Unit) }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = stringResource(id = R.string.search)

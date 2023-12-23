@@ -18,11 +18,10 @@ class PickLocationContract : ActivityResultContract<Unit, Location?>() {
 
 
     override fun parseResult(resultCode: Int, intent: Intent?): Location? {
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK || intent == null) {
             return null
         }
-        if (intent == null)
-            return null
+
         val location = if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(KEY_LOCATION, Location::class.java)
         } else {

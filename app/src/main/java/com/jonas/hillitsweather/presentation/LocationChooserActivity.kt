@@ -33,7 +33,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LocationChooserActivity : ComponentActivity() {
 
-    private val locationViewModel: LocationViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,7 +49,7 @@ class LocationChooserActivity : ComponentActivity() {
         }
     }
 
-     private fun onLocationClicked(location: Location) {
+    private fun onLocationClicked(location: Location) {
         setResult(Activity.RESULT_OK, Intent().apply {
             putExtra(KEY_LOCATION, location)
         })
@@ -60,10 +59,14 @@ class LocationChooserActivity : ComponentActivity() {
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-private fun SearchLocation(modifier: Modifier, onItemClicked: (Location) -> Unit, viewModel: LocationViewModel = getViewModel()) {
+private fun SearchLocation(
+    modifier: Modifier,
+    onItemClicked: (Location) -> Unit,
+    viewModel: LocationViewModel = getViewModel()
+) {
     val searchText by viewModel.searchText.collectAsState()
     val locations by viewModel.foundLocations2.collectAsState()
-    val isLoading by viewModel.isSearching.collectAsState()
+    //val isLoading by viewModel.isSearching.collectAsState()
     Column(
         modifier
             .fillMaxSize()

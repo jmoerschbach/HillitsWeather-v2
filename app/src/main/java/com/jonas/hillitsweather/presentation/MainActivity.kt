@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -11,13 +12,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,9 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
-
 import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
+import com.jonas.hillitsweather.utils.PickLocationContract
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,47 +53,48 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = weatherViewModel.state.isLoading,
-            onRefresh = { weatherViewModel.loadWeather() }
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = weatherViewModel.state.isLoading,
+        onRefresh = {
+            weatherViewModel.loadWeather()
+        }
+    )
+    Box(Modifier.pullRefresh(pullRefreshState)) {
+        Column(Modifier.fillMaxSize()) {
+            TopAppBarCompose()
+            WeatherUi()
+        }
+        PullRefreshIndicator(
+            weatherViewModel.state.isLoading,
+            pullRefreshState,
+            Modifier.align(Alignment.TopCenter)
         )
-        Box(Modifier.pullRefresh(pullRefreshState)) {
-            Column(Modifier.fillMaxSize()) {
-                TopAppBarCompose()
-                WeatherUi()
-            }
-            PullRefreshIndicator(
-                weatherViewModel.state.isLoading,
-                pullRefreshState,
-                Modifier.align(Alignment.TopCenter)
-            )
-        }
-
     }
 
-    @Composable
-    fun WeatherUi(weatherViewModel: WeatherViewModel = getViewModel()) {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+}
+
+@Composable
+fun WeatherUi(weatherViewModel: WeatherViewModel = getViewModel()) {
+    // A surface container using the 'background' color from the theme
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                CurrentWeatherCard(state = weatherViewModel.state)
-                HourlyWeatherForecast(state = weatherViewModel.state)
-                DailyWeatherForecast(state = weatherViewModel.state)
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+            CurrentWeatherCard(state = weatherViewModel.state)
+            HourlyWeatherForecast(state = weatherViewModel.state)
+            DailyWeatherForecast(state = weatherViewModel.state)
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
-
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,6 +105,15 @@ fun TopAppBarCompose(weatherViewModel: WeatherViewModel = getViewModel()) {
     val menuVisible = remember { mutableStateOf(false) }
 
     val aboutPopupVisible = remember { mutableStateOf(false) }
+
+    val locationActivityLauncher =
+        rememberLauncherForActivityResult(contract = PickLocationContract()) {
+            it?.let {
+                weatherViewModel.currentLocation = it
+                weatherViewModel.loadWeather()
+            }
+
+        }
 
     val sun = if (weatherViewModel.weatherModeIsHillit) ImageVector.vectorResource(
         id = R.drawable.sun_own_filled
@@ -123,7 +132,7 @@ fun TopAppBarCompose(weatherViewModel: WeatherViewModel = getViewModel()) {
                     tint = if (weatherViewModel.weatherModeIsHillit) Color.Yellow else LocalContentColor.current
                 )
             }
-            IconButton(onClick = { makeToast(context, "Sorry, not yet supported ;)") }) {
+            IconButton(onClick = { locationActivityLauncher.launch(Unit) }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = stringResource(id = R.string.search)

@@ -4,12 +4,14 @@ import com.jonas.hillitsweather.data.remote.GeoapifyApi
 import com.jonas.hillitsweather.data.remote.OpenWeatherMapApi
 import com.jonas.hillitsweather.data.repository.GeoapifyRepository
 import com.jonas.hillitsweather.data.repository.OpenWeatherMapRepository
+import com.jonas.hillitsweather.data.repository.UserPreferenceRepository
 import com.jonas.hillitsweather.domain.repository.LocationRepository
 import com.jonas.hillitsweather.domain.repository.WeatherRepository
 import com.jonas.hillitsweather.presentation.LocationViewModel
 import com.jonas.hillitsweather.presentation.WeatherViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -42,6 +44,7 @@ val appModule = module {
     single { provideGeoApi(client) }
     single<WeatherRepository> { OpenWeatherMapRepository(get()) }
     single<LocationRepository> { GeoapifyRepository(get()) }
-    viewModel { WeatherViewModel(get()) }
+    single<UserPreferenceRepository> { UserPreferenceRepository(androidContext()) }
+    viewModel { WeatherViewModel(get(), get()) }
     viewModel { LocationViewModel(get()) }
 }

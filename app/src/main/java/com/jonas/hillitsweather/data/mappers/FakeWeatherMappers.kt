@@ -31,6 +31,7 @@ private fun toFakeCurrentWeatherData(current: Current): WeatherData {
         pressure = pressure,
     )
 }
+
 @Suppress("MagicNumber")
 private fun toFakeHourlyWeatherForecast(hourly: List<Hourly>): List<WeatherData> {
     return hourly.take(24).map {
@@ -93,6 +94,8 @@ fun WeatherDataDto.toFakeCompleteWeatherData(): CompleteWeatherData {
     val sunset = DateTimeHelper.toZonedDateTime(current!!.sunset)
 
     return CompleteWeatherData(
+        lat = lat,
+        lon = lon,
         sunriseTime = sunrise,
         sunsetTime = sunset,
         current = currentWeather!!,

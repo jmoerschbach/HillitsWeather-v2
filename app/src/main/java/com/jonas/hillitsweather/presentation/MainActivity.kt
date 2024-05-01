@@ -7,18 +7,39 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +58,7 @@ import com.jonas.hillitsweather.utils.PickLocationContract
 import org.koin.androidx.compose.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class MainActivity : ComponentActivity() {
 
     private val weatherViewModel: WeatherViewModel by viewModel()
@@ -44,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        weatherViewModel.loadWeather()
+//        weatherViewModel.loadWeather()
         setContent {
             HillitsWeatherTheme {
                 AppUi()
@@ -59,7 +81,7 @@ private fun AppUi(weatherViewModel: WeatherViewModel = getViewModel()) {
     val pullRefreshState = rememberPullRefreshState(
         refreshing = weatherViewModel.state.isLoading,
         onRefresh = {
-            weatherViewModel.loadWeather()
+//            weatherViewModel.loadWeather()
         }
     )
     Box(Modifier.pullRefresh(pullRefreshState)) {
@@ -109,8 +131,8 @@ fun TopAppBarCompose(weatherViewModel: WeatherViewModel = getViewModel()) {
     val locationActivityLauncher =
         rememberLauncherForActivityResult(contract = PickLocationContract()) {
             it?.let {
-                weatherViewModel.currentLocation = it
-                weatherViewModel.loadWeather()
+//                weatherViewModel.currentLocation = it
+                weatherViewModel.updateLocation(it)
             }
 
         }

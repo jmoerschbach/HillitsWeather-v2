@@ -3,6 +3,9 @@ package com.jonas.hillitsweather.domain.weather
 import java.time.ZonedDateTime
 
 data class CompleteWeatherData(
+    val lat: Double,
+    val lon: Double,
+    var city: String = "",
     val sunriseTime: ZonedDateTime,
     val sunsetTime: ZonedDateTime,
     val current: WeatherData,

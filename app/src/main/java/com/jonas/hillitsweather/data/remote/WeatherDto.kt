@@ -6,10 +6,10 @@ import com.squareup.moshi.Json
 class WeatherDataDto {
 
     @field:Json(name = "lon")
-    var lon: Float = 0.toFloat()
+    var lon: Double = 0.toDouble()
 
     @field:Json(name = "lat")
-    var lat: Float = 0.toFloat()
+    var lat: Double = 0.toDouble()
 
     @field:Json(name = "timezone")
     var timezone: String? = null

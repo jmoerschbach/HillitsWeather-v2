@@ -98,6 +98,8 @@ fun WeatherDataDto.toCompleteWeatherData(): CompleteWeatherData {
     val sunset = DateTimeHelper.toZonedDateTime(current!!.sunset)
 
     return CompleteWeatherData(
+        lat = lat,
+        lon = lon,
         sunriseTime = sunrise,
         sunsetTime = sunset,
         current = currentWeather!!,

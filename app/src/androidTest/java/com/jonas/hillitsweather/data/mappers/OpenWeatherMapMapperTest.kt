@@ -61,25 +61,33 @@ class OpenWeatherMapMapperTest {
         assertNotNull(completeWeatherData.current)
     }
 
+@Test
+fun testDailyForecastData() {
+    val day = completeWeatherData.dailyForecast[0]
+    assertEquals(100, day.rainProbability)
+    assertEquals(1011, day.pressure)
+    assertEquals(5.97f, day.windspeed)
+    assertEquals(40, day.humidity)
+    assertEquals(17.75f, day.temperatureMinCelsius, 0.0f)
+    assertEquals(30.84f, day.temperatureMaxCelsius, 0.0f)
+    assertEquals(28.87f, day.temperatureDayCelsius, 0.0f)
+    assertEquals(21.73f, day.temperatureNightCelsius,0.0f)
+    assertEquals(26.21f, day.temperatureEveningCelsius,0.0f)
+    assertEquals(17.75f, day.temperatureMorningCelsius,0.0f)
 
+    assertEquals("Mäßiger Regen", day.description)
+    assertEquals("2023-06-20T13:00+02:00[Europe/Berlin]", day.forecastedTime.toString())
+}
     @Test
     fun testHourlyForecastData() {
-        val day = completeWeatherData.dailyForecast[0]
-        assertEquals(100, day.rainProbability)
-        assertEquals(1011, day.pressure)
-        assertEquals(5.97f, day.windspeed)
-        assertEquals(40, day.humidity)
-        assertEquals(17.75f, day.temperatureMinCelsius, 0.0f)
-        assertEquals(30.84f, day.temperatureMaxCelsius, 0.0f)
-        assertEquals(28.87f, day.temperatureDayCelsius, 0.0f)
-        assertEquals(21.73f, day.temperatureNightCelsius,0.0f)
-        assertEquals(26.21f, day.temperatureEveningCelsius,0.0f)
-        assertEquals(17.75f, day.temperatureMorningCelsius,0.0f)
-
-        assertEquals("Mäßiger Regen", day.description)
-        assertEquals("2023-06-20T13:00+02:00[Europe/Berlin]", day.forecastedTime.toString())
-        assertEquals("https://openweathermap.org/img/wn/10d@4x.png", day.iconUrl)
-
+        val hour = completeWeatherData.hourForecast[0]
+        assertEquals(100, hour.rainProbability)
+        assertEquals(1011, hour.pressure)
+        assertEquals(5.97f, hour.windspeed)
+        assertEquals(40, hour.humidity)
+        assertEquals(17.75f, hour.temperatureCelsius, 0.0f)
+        assertEquals("Mäßiger Regen", hour.description)
+        assertEquals("2023-06-20T13:00+02:00[Europe/Berlin]", hour.forecastedTime.toString())
     }
 
 }

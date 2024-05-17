@@ -77,6 +77,7 @@ fun testDailyForecastData() {
 
     assertEquals("Mäßiger Regen", day.description)
     assertEquals("2023-06-20T13:00+02:00[Europe/Berlin]", day.forecastedTime.toString())
+    assertEquals("https://openweathermap.org/img/wn/10d@4x.png", day.iconUrl)
 }
     @Test
     fun testHourlyForecastData() {

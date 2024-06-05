@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
+    id 'com.google.devtools.ksp' version '1.8.21-1.0.11'
 }
 
 apply plugin: 'io.gitlab.arturbosch.detekt'
@@ -24,8 +25,10 @@ detekt {
 
 }
 
-
-
+kotlin {
+    // For example:
+    jvmToolchain(17)
+}
 android {
 
     namespace 'com.jonas.hillitsweather'
@@ -71,13 +74,6 @@ android {
             testCoverageEnabled true
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 
     buildFeatures {
         compose true
@@ -85,7 +81,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.4.7'
     }
-    testOptions  {
+    testOptions {
         unitTests {
             includeAndroidResources = true
         }
@@ -129,10 +125,13 @@ dependencies {
     implementation 'io.insert-koin:koin-androidx-compose:3.4.4'
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
-    testImplementation 'com.squareup.retrofit2:retrofit-mock:2.9.0'
+    testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
+
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.1")
+
 
     //Mockk
     androidTestImplementation "io.mockk:mockk-android:1.12.5"

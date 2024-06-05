@@ -2,14 +2,17 @@ package com.jonas.hillitsweather.data.remote
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 @Keep
+@JsonClass(generateAdapter = true)
 class LocationDataDto {
     @field:Json(name="results")
     var results = listOf<CompletedLocation>()
 
 }
 @Keep
+@JsonClass(generateAdapter = true)
 class CompletedLocation {
     @field:Json(name="city")
     var city: String? = null

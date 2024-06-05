@@ -2,7 +2,10 @@ package com.jonas.hillitsweather.data.remote
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
 @Keep
+@JsonClass(generateAdapter = true)
 class WeatherDataDto {
 
     @field:Json(name = "lon")
@@ -24,6 +27,7 @@ class WeatherDataDto {
     var daily = listOf<Daily>()
 }
 @Keep
+@JsonClass(generateAdapter = true)
 class Current {
     @field:Json(name = "dt")
     var dt: Long = 0
@@ -56,6 +60,7 @@ class Current {
     var pressure: Int = 0
 }
 @Keep
+@JsonClass(generateAdapter = true)
 class Hourly {
     @field:Json(name = "dt")
     var dt: Long = 0
@@ -89,6 +94,7 @@ class Hourly {
 }
 
 @Keep
+@JsonClass(generateAdapter = true)
 class Daily {
     @field:Json(name = "dt")
     var dt: Long = 0
@@ -125,6 +131,7 @@ class Daily {
 }
 
 @Keep
+@JsonClass(generateAdapter = true)
 class Temperature {
     @field:Json(name = "day")
     var day: Float = 0.toFloat()
@@ -147,6 +154,7 @@ class Temperature {
 }
 
 @Keep
+@JsonClass(generateAdapter = true)
 class Weather {
     @field:Json(name = "id")
     var id: Int = 0

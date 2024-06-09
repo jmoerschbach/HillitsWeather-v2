@@ -1,11 +1,9 @@
 package com.jonas.hillitsweather.presentation
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,12 +24,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.jonas.hillitsweather.R
 import com.jonas.hillitsweather.domain.weather.Location
 import com.jonas.hillitsweather.ui.theme.HillitsWeatherTheme
 import com.jonas.hillitsweather.utils.PickLocationContract.Companion.KEY_LOCATION
 import org.koin.androidx.compose.getViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LocationChooserActivity : ComponentActivity() {
 
@@ -50,14 +53,13 @@ class LocationChooserActivity : ComponentActivity() {
     }
 
     private fun onLocationClicked(location: Location) {
-        setResult(Activity.RESULT_OK, Intent().apply {
+        setResult(RESULT_OK, Intent().apply {
             putExtra(KEY_LOCATION, location)
         })
         finish()
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 private fun SearchLocation(
     modifier: Modifier,
@@ -75,7 +77,21 @@ private fun SearchLocation(
         TextField(
             value = searchText,
             onValueChange = { viewModel.onSearchTextChanged(it) },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            trailingIcon = {
+                if (searchText.isNotEmpty()) {
+                    IconButton(
+                        onClick = { viewModel.onSearchTextChanged("") },
+                    ) {
+                        Icon(
+                            modifier = modifier.size(24.dp),
+                            imageVector = ImageVector.vectorResource(id = R.drawable.round_clear_24),
+                            contentDescription = stringResource(id = R.string.clearTextField)
+                        )
+                    }
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(16.dp))
